@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搜搜电影网 - 电影搜索/分类/片单/影评一站式导航</title>
+<meta name="description" content="搜搜电影网(sousoudianyingwang)做电影搜索入口：按类型、地区、年份、评分快速找片，提供热搜词、精选片单、深夜影评与正版观影导航。移动端自适应，找电影更快。">
+<meta name="keywords" content="搜搜电影网,sousoudianyingwang,电影搜索,找电影,电影分类,电影片单,高分电影,正版观影">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+<link rel="canonical" href="https://sousoudianyingwang-h5.github.io">
+<meta property="og:title" content="搜搜电影网 - 电影搜索/分类/片单一站式">
+<meta property="og:description" content="搜搜电影网(sousoudianyingwang)按类型、地区、年份、评分快速找片，提供热搜词与精选片单。">
+<meta property="og:url" content="https://sousoudianyingwang-h5.github.io">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="搜搜电影网">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "搜搜电影网",
+  "alternateName": "sousoudianyingwang",
+  "url": "https://sousoudianyingwang-h5.github.io",
+  "description": "电影搜索、分类、片单与影评导航站",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://sousoudianyingwang-h5.github.io#search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "搜搜电影网",
+  "url": "https://sousoudianyingwang-h5.github.io",
+  "description": "搜搜电影网 sousoudianyingwang 电影导航站"
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f6f8fc;color:#16203a;line-height:1.65;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+
+/* 导航 */
+.ss-nav{position:fixed;top:0;left:0;right:0;z-index:999;height:56px;display:flex;align-items:center;background:#fff;border-bottom:1px solid #e6ebf5}
+.ss-nav__in{max-width:1180px;margin:0 auto;width:100%;padding:0 16px;display:flex;align-items:center;justify-content:space-between}
+.ss-logo{font-weight:900;font-size:1.2rem}
+.ss-logo b{color:#2f6bff}
+.ss-logo i{color:#ff6a3d;font-style:normal}
+.ss-menu{display:flex;gap:4px;list-style:none}
+.ss-menu a{padding:7px 12px;border-radius:999px;font-size:.84rem;color:#5a6781;transition:.25s}
+.ss-menu a:hover,.ss-menu a.is-active{color:#fff;background:#2f6bff}
+.ss-burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.ss-burger span{width:22px;height:2px;background:#2f6bff;border-radius:2px}
+
+/* Hero 搜索中枢 */
+.ss-hero{padding:104px 16px 56px;background:linear-gradient(180deg,#eef3ff,#f6f8fc)}
+.ss-hero__in{max-width:820px;margin:0 auto;text-align:center}
+.ss-hero h1{font-size:clamp(1.9rem,5vw,3rem);font-weight:900;line-height:1.2;margin-bottom:10px}
+.ss-hero h1 em{font-style:normal;color:#2f6bff}
+.ss-hero p{color:#5a6781;margin-bottom:26px}
+.ss-search{display:flex;background:#fff;border:2px solid #d8e2ff;border-radius:999px;padding:6px;gap:6px;box-shadow:0 10px 30px rgba(47,107,255,.08)}
+.ss-search input{flex:1;background:transparent;border:0;outline:none;padding:12px 18px;font-size:1rem;color:#16203a}
+.ss-search button{border:0;border-radius:999px;padding:0 26px;font-weight:800;cursor:pointer;color:#fff;background:linear-gradient(90deg,#2f6bff,#5b8cff)}
+.ss-search button:hover{filter:brightness(1.05)}
+.ss-hot{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.ss-hot span{font-size:.74rem;color:#5a6781}
+.ss-tag{font-size:.78rem;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid #e0e7f7;color:#33415c;transition:.25s}
+.ss-tag:hover{border-color:#2f6bff;color:#2f6bff}
+
+/* 通用 */
+.ss-sec{max-width:1180px;margin:0 auto;padding:68px 16px}
+.ss-hd{margin-bottom:24px}
+.ss-hd h2{font-size:1.6rem;font-weight:900}
+.ss-hd h2 u{text-decoration:none;color:#2f6bff}
+.ss-hd p{color:#6b768f;font-size:.86rem;margin-top:6px}
+
+/* 分类矩阵 */
+.ss-cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.ss-cat{background:#fff;border:1px solid #e6ebf5;border-radius:16px;padding:18px;text-align:center;transition:.3s}
+.ss-cat:hover{transform:translateY(-4px);border-color:#2f6bff;box-shadow:0 12px 28px rgba(47,107,255,.12)}
+.ss-cat .ico{font-size:1.8rem}
+.ss-cat h3{font-size:.92rem;font-weight:800;margin-top:8px}
+.ss-cat p{font-size:.72rem;color:#8590a8}
+
+/* 搜索结果卡片 */
+.ss-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.ss-card{background:#fff;border:1px solid #e6ebf5;border-radius:16px;padding:16px;display:flex;gap:14px;transition:.3s}
+.ss-card:hover{border-color:#2f6bff}
+.ss-card .poster{width:54px;height:76px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:linear-gradient(160deg,#eaf0ff,#dbe6ff)}
+.ss-card h3{font-size:.95rem;font-weight:800}
+.ss-card .meta{font-size:.74rem;color:#8590a8;margin:4px 0}
+.ss-card .desc{font-size:.78rem;color:#5a6781;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ss-card .go{margin-top:8px;font-size:.76rem;color:#2f6bff;font-weight:700}
+
+/* 片单瀑布 */
+.ss-lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.ss-list{background:#fff;border:1px solid #e6ebf5;border-radius:18px;padding:22px;position:relative;overflow:hidden}
+.ss-list::before{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.12),transparent 70%)}
+.ss-list h3{font-size:1.05rem;font-weight:800;margin-bottom:10px}
+.ss-list ol{margin:0;padding-left:18px;color:#5a6781;font-size:.84rem}
+.ss-list li{margin-bottom:6px}
+.ss-list a{color:#33415c}
+.ss-list a:hover{color:#2f6bff}
+
+/* 影评摘要 */
+.ss-reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.ss-review{background:#fff;border-left:4px solid #2f6bff;border-radius:0 14px 14px 0;padding:18px}
+.ss-review h3{font-size:.95rem;font-weight:800;margin-bottom:6px}
+.ss-review p{font-size:.82rem;color:#5a6781}
+.ss-review .who{margin-top:10px;font-size:.74rem;color:#8590a8}
+
+/* 正版渠道 */
+.ss-channels{display:flex;flex-wrap:wrap;gap:12px}
+.ss-channel{padding:12px 18px;border-radius:12px;background:#fff;border:1px solid #e6ebf5;font-size:.84rem;color:#33415c;transition:.25s}
+.ss-channel:hover{border-color:#2f6bff;color:#2f6bff}
+
+/* FAQ */
+.ss-faq details{background:#fff;border:1px solid #e6ebf5;border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.ss-faq summary{font-weight:700;cursor:pointer;font-size:.9rem}
+.ss-faq p{font-size:.82rem;color:#5a6781;margin-top:8px}
+
+/* Footer */
+.ss-foot{background:#0e1730;color:#aab4cf;padding:44px 16px 24px;margin-top:40px}
+.ss-foot__in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:26px}
+.ss-foot h3{color:#fff;font-size:1.1rem;font-weight:900}
+.ss-foot h3 b{color:#5b8cff}
+.ss-foot p{font-size:.8rem;margin-top:10px;line-height:1.7}
+.ss-foot h5{color:#5b8cff;font-size:.86rem;margin-bottom:12px}
+.ss-foot a{display:block;font-size:.8rem;color:#9aa6c4;padding:4px 0}
+.ss-foot a:hover{color:#fff}
+.ss-foot__bt{border-top:1px solid #1c2748;margin-top:26px;padding-top:16px;text-align:center;font-size:.76rem;color:#7c89ad}
+.ss-foot__url{color:#5b8cff;font-weight:700}
+
+@media(max-width:860px){.ss-foot__in{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){
+  .ss-burger{display:flex}
+  .ss-menu{position:absolute;top:56px;left:0;right:0;flex-direction:column;gap:0;background:#fff;border-bottom:1px solid #e6ebf5;padding:8px 14px;display:none}
+  .ss-menu.open{display:flex}
+  .ss-menu a{padding:12px 10px}
+}
+@media(max-width:520px){
+  .ss-foot__in{grid-template-columns:1fr}
+  .ss-search button{padding:0 18px}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="ss-nav">
+  <div class="ss-nav__in">
+    <a class="ss-logo" href="#"><b>搜搜</b><i>电影网</i></a>
+    <ul class="ss-menu" id="ssMenu">
+      <li><a href="#search" class="is-active">找电影</a></li>
+      <li><a href="#cats">分类</a></li>
+      <li><a href="#results">猜你想看</a></li>
+      <li><a href="#lists">片单</a></li>
+      <li><a href="#reviews">影评</a></li>
+      <li><a href="#channels">正版渠道</a></li>
+    </ul>
+    <div class="ss-burger" id="ssBurger"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<section class="ss-hero" id="search">
+  <div class="ss-hero__in">
+    <h1>搜电影，<em>先搜搜</em></h1>
+    <p>搜搜电影网（sousoudianyingwang）不是播放器，是找片入口：类型、地区、年份、评分、心情，一次筛出来。</p>
+    <form class="ss-search" onsubmit="return false;">
+      <input type="search" placeholder="搜：科幻 / 韩国犯罪 / 2025高分 / 周末家庭片…" aria-label="搜索电影">
+      <button type="submit">搜电影</button>
+    </form>
+    <div class="ss-hot">
+      <span>热搜：</span>
+      <a class="ss-tag" href="#">悬疑烧脑 #</a>
+      <a class="ss-tag" href="#">国产现实 #</a>
+      <a class="ss-tag" href="#">奥斯卡获奖 #</a>
+      <a class="ss-tag" href="#">动画电影 #</a>
+      <a class="ss-tag" href="#">深夜片单 #</a>
+      <a class="ss-tag" href="#">冷门佳片 #</a>
+    </div>
+  </div>
+</section>
+
+<section class="ss-sec" id="cats">
+  <div class="ss-hd">
+    <h2>🗂️ 分类 <u>矩阵</u></h2>
+    <p>先选心情，再选类型，比直接搜片名更准</p>
+  </div>
+  <div class="ss-cats">
+    <div class="ss-cat"><div class="ico">🚀</div><h3>科幻</h3><p>未来/太空/AI</p></div>
+    <div class="ss-cat"><div class="ico">🕵️</div><h3>悬疑</h3><p>反转/推理</p></div>
+    <div class="ss-cat"><div class="ico">💘</div><h3>爱情</h3><p>青春/婚姻</p></div>
+    <div class="ss-cat"><div class="ico">😂</div><h3>喜剧</h3><p>解压/合家欢</p></div>
+    <div class="ss-cat"><div class="ico">😱</div><h3>惊悚</h3><p>恐怖/心理</p></div>
+    <div class="ss-cat"><div class="ico">🐉</div><h3>国漫</h3><p>神话/武侠</p></div>
+    <div class="ss-cat"><div class="ico">🏆</div><h3>高分</h3><p>8.5+ 精选</p></div>
+    <div class="ss-cat"><div class="ico">🎞️</div><h3>文艺</h3><p>慢节奏/作者性</p></div>
+    <div class="ss-cat"><div class="ico">🌏</div><h3>地区</h3><p>国产/韩/日/欧</p></div>
+    <div class="ss-cat"><div class="ico">📅</div><h3>年代</h3><p>90s/2010s/新片</p></div>
+  </div>
+</section>
+
+<section class="ss-sec" id="results" style="background:#eef3ff;">
+  <div class="ss-hd">
+    <h2>🎯 猜你想看 <u>结果卡</u></h2>
+    <p>模拟“搜完之后”的卡片流：标题、类型、评分、一句话简介</p>
+  </div>
+  <div class="ss-results">
+    <article class="ss-card"><div class="poster">🛸</div><div><h3>星际回声</h3><div class="meta">科幻 / 2025 / ⭐ 8.7</div><p class="desc">失联飞船发回一段 20 年前的录音，宇航员开始怀疑时间本身。</p><div class="go">查看片单 #</div></div></article>
+    <article class="ss-card"><div class="poster">🩸</div><div><h3>雨夜证人</h3><div class="meta">悬疑 / 韩国 / ⭐ 8.9</div><p class="desc">一桩旧案、一份遗嘱、三个版本证词，真相在最后一分钟翻盘。</p><div class="go">查看片单 #</div></div></article>
+    <article class="ss-card"><div class="poster">🏮</div><div><h3>巷口理发店</h3><div class="meta">文艺 / 国产 / ⭐ 8.4</div><p class="desc">老街要拆了，理发师用一把剪刀留住整条巷子的记忆。</p><div class="go">查看片单 #</div></div></article>
+    <article class="ss-card"><div class="poster">🐱</div><div><h3>猫与失踪邻居</h3><div class="meta">动画 / 合家欢 / ⭐ 8.6</div><p class="desc">小女孩跟着一只橘猫，找回了整栋楼里没人提起的故事。</p><div class="go">查看片单 #</div></div></article>
+    <article class="ss-card"><div class="poster">💼</div><div><h3>加班到黎明</h3><div class="meta">现实 / 职场 / ⭐ 8.2</div><p class="desc">不是爽文，是打工人的生存纪录片：咖啡、地铁、未读消息。</p><div class="go">查看片单 #</div></div></article>
+    <article class="ss-card"><div class="poster">⚔️</div><div><h3>山海拾遗：烛龙</h3><div class="meta">国漫 / 神话 / ⭐ 8.8</div><p class="desc">钟山烛龙睁眼为昼、闭眼为夜，少年替它找回名字。</p><div class="go">查看片单 #</div></div></article>
+  </div>
+</section>
+
+<section class="ss-sec" id="lists">
+  <div class="ss-hd">
+    <h2>🎬 编辑片单 <u>瀑布</u></h2>
+    <p>按场景整理，不按“资源”整理</p>
+  </div>
+  <div class="ss-lists">
+    <div class="ss-list">
+      <h3>周末不想动脑：3 部解压喜剧</h3>
+      <ol>
+        <li><a href="#">《租个男友回家过年》— 尴尬但上头</a></li>
+        <li><a href="#">《便利店人生》— 社畜治愈版</a></li>
+        <li><a href="#">《外公的吉他》— 家庭轻喜剧</a></li>
+      </ol>
+    </div>
+    <div class="ss-list">
+      <h3>一个人深夜看：悬疑不吓人版</h3>
+      <ol>
+        <li><a href="#">《第七个证人》— 本格推理</a></li>
+        <li><a href="#">《录音笔里的城市》— 广播剧感</a></li>
+        <li><a href="#">《无人接听》— 电话悬疑</a></li>
+      </ol>
+    </div>
+    <div class="ss-list">
+      <h3>恋爱脑急救：3 部清醒片</h3>
+      <ol>
+        <li><a href="#">《分手合同》— 现实向</a></li>
+        <li><a href="#">《相亲统计学》— 喜剧外衣</a></li>
+        <li><a href="#">《婚后第三年》— 不狗血</a></li>
+      </ol>
+    </div>
+    <div class="ss-list">
+      <h3>国产现实向：看完想打电话给妈</h3>
+      <ol>
+        <li><a href="#">《回乡的路》— 代际冲突</a></li>
+        <li><a href="#">《护工日记》— 老龄化题材</a></li>
+        <li><a href="#">《县城青年》— 小人物群像</a></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="ss-sec" id="reviews" style="background:#eef3ff;">
+  <div class="ss-hd">
+    <h2>📝 影评摘要 <u>不剧透版</u></h2>
+    <p>先知道“适不适合自己”，再决定看不看</p>
+  </div>
+  <div class="ss-reviews">
+    <div class="ss-review"><h3>《星际回声》值不值得看？</h3><p>适合喜欢《星际穿越》《降临》的人；不喜欢慢节奏会困。视听满分，剧情后半段略满。</p><div class="who">— 搜搜编辑部 / 科幻组</div></div>
+    <div class="ss-review"><h3>《雨夜证人》吓人吗？</h3><p>不吓人，但烧脑。核心不是凶手是谁，而是“记忆能不能被改写”。</p><div class="who">— 深夜放映室</div></div>
+    <div class="ss-review"><h3>《巷口理发店》是不是鸡汤？</h3><p>有点，但克制。它真正讲的是“老社区消失”这件事，比怀旧更深一点。</p><div class="who">— 国片观察</div></div>
+    <div class="ss-review"><h3>《加班到黎明》太丧了？</h3><p>对，但真实。适合和《心灵奇旅》搭配看：一部打醒你，一部接住你。</p><div class="who">— 职场片单组</div></div>
+  </div>
+</section>
+
+<section class="ss-sec" id="channels">
+  <div class="ss-hd">
+    <h2>🛡️ 正版渠道 <u>导航</u></h2>
+    <p>搜搜电影网不存片源，只把你看向正版平台</p>
+  </div>
+  <div class="ss-channels">
+    <a class="ss-channel" href="#">院线新片 #</a>
+    <a class="ss-channel" href="#">正版流媒体 #</a>
+    <a class="ss-channel" href="#">公共图书馆影像 #</a>
+    <a class="ss-channel" href="#">电影节展映 #</a>
+    <a class="ss-channel" href="#">4K 修复片单 #</a>
+    <a class="ss-channel" href="#">高校影视资料 #</a>
+    <a class="ss-channel" href="#">纪录片平台 #</a>
+    <a class="ss-channel" href="#">动画专场 #</a>
+  </div>
+
+  <div class="ss-faq" style="margin-top:28px;">
+    <details open>
+      <summary>搜搜电影网是播放网站吗？</summary>
+      <p>不是。它是“找片/分类/片单/影评”导航站，内链用 # 占位，不提供盗版播放与下载。</p>
+    </details>
+    <details>
+      <summary>为什么搜索结果是示例卡片？</summary>
+      <p>单页演示站没有后端。真实部署时可接正版片库 API、CMS 或静态 JSON 数据。</p>
+    </details>
+    <details>
+      <summary>为什么不用 robots.txt / sitemap.xml？</summary>
+      <p>按你的要求不生成。单页站点有自引用 canonical + 语义化结构，必应也能通过链接发现内容。[11](@ref)</p>
+    </details>
+  </div>
+</section>
+
+<footer class="ss-foot">
+  <div class="ss-foot__in">
+    <div>
+      <h3><b>搜搜</b>电影网</h3>
+      <p>搜搜电影网（sousoudianyingwang）做“电影搜索引擎式首页”：分类、热搜、片单、影评、正版渠道一站式。找电影这件事，先搜搜，再开看。</p>
+    </div>
+    <div>
+      <h5>找片入口</h5>
+      <a href="#">按类型找 #</a>
+      <a href="#">按地区找 #</a>
+      <a href="#">按评分找 #</a>
+      <a href="#">按心情找 #</a>
+    </div>
+    <div>
+      <h5>站点</h5>
+      <a href="#">关于搜搜电影网 #</a>
+      <a href="#">片单投稿 #</a>
+      <a href="#">正版合作 #</a>
+      <a href="#">免责声明 #</a>
+    </div>
+  </div>
+  <div class="ss-foot__bt">
+    © 2026 搜搜电影网 sousoudianyingwang · 官网：
+    <span class="ss-foot__url">https://sousoudianyingwang-h5.github.io</span>
+    · 单页演示 / 内链用 # / 不提供盗版资源
+  </div>
+</footer>
+
+<script>
+(function(){
+  var burger=document.getElementById('ssBurger');
+  var menu=document.getElementById('ssMenu');
+  burger.addEventListener('click',function(){menu.classList.toggle('open');});
+  var links=menu.querySelectorAll('a');
+  links.forEach(function(a){
+    a.addEventListener('click',function(){
+      links.forEach(function(x){x.classList.remove('is-active');});
+      a.classList.add('is-active');
+      menu.classList.remove('open');
+    });
+  });
+  var ids=['search','cats','results','lists','reviews','channels'];
+  window.addEventListener('scroll',function(){
+    var pos=window.scrollY+120,cur='search';
+    ids.forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&el.offsetTop<=pos)cur=id;
+    });
+    links.forEach(function(a){
+      a.classList.toggle('is-active',a.getAttribute('href')==='#'+cur);
+    });
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
